@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        change_fragment(camera_fragment)
+        change_fragment(home_fragment)
 
         bottom_navigation.setOnItemSelectedListener {
             when(it.itemId) {

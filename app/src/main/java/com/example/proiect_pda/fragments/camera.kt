@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.Image
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -16,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.example.proiect_pda.MainActivity
 import com.example.proiect_pda.R
@@ -23,6 +25,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,8 +39,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [camera.newInstance] factory method to
  * create an instance of this fragment.
  */
-private const val FILE_NAME = "photo.jpg"
+private const val FILE_NAME = "photo"
 private const val TAKE_PICTURE_REQUEST_CODE = 30
+
+
 class camera : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -89,10 +95,15 @@ class camera : Fragment() {
         return File.createTempFile(fileName, ".jpg", storage_path)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == TAKE_PICTURE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             //val image_taken = data?.extras?.get("data") as Bitmap
             val image_taken = BitmapFactory.decodeFile(photo_file.absolutePath)
+            Log.d("file_path", photo_file.absolutePath)
+
+
+
             image_view?.setImageBitmap(image_taken)
         }
         else {
