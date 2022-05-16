@@ -2,11 +2,10 @@ package com.example.proiect_pda.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proiect_pda.MainActivity
@@ -15,6 +14,8 @@ import com.example.proiect_pda.Pictures
 import com.example.proiect_pda.R
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.io.path.absolutePathString
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,6 +36,7 @@ class settings : Fragment() {
     private var param2: String? = null
     private lateinit var recycler_view : RecyclerView
     private lateinit var picture_array : ArrayList<Pictures>
+    private lateinit var searched_picture_array: ArrayList<Pictures>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,16 +60,53 @@ class settings : Fragment() {
         recycler_view.setHasFixedSize(true)
 
         picture_array = arrayListOf<Pictures>()
+        searched_picture_array = arrayListOf<Pictures>()
+
         Files.walk(Paths.get(PHOTO_DIRECTORY))
             .filter { Files.isRegularFile(it) }
             .forEach {
                 val new_picture = Pictures(it.absolutePathString())
                 picture_array.add(new_picture)
             }
+        searched_picture_array.addAll(picture_array)
+
         recycler_view.adapter = MyAdapter(picture_array)
         return view
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater?.inflate(R.menu.search_bar, menu)
+        val item = menu?.findItem(R.id.search_action)
+        val search_view = item?.actionView as SearchView
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Nu e nevoie")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searched_picture_array.clear()
+                val searched_text = newText!!.toLowerCase(Locale.getDefault())
+                if(searched_text.isNotEmpty()) {
+                    picture_array.forEach({
+                        if(it.image_path.toLowerCase(Locale.getDefault()).contains(searched_text)) {
+                            searched_picture_array.add(it)
+                        }
+                    })
+                    recycler_view.adapter!!.notifyDataSetChanged()
+                }
+                else {
+                    searched_picture_array.addAll(picture_array)
+                    recycler_view.adapter!!.notifyDataSetChanged()
+                }
+
+
+                return false
+            }
+
+        })
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

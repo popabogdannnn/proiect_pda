@@ -13,12 +13,14 @@
         <entry key="..\:/work/Android Studio/proiect_pda/app/src/main/res/menu/nav_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/work/Android Studio/proiect_pda/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2985" />
         <entry key="..\:/work/Android Studio/proiect_pda/app/src/main/res/xml/fileprovider.xml" value="0.36666666666666664" />
+        <entry key="..\:/work/Android/proiect_pda/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.3165" />
         <entry key="..\:/work/Android/proiect_pda/app/src/main/res/layout/activity_main.xml" value="0.31354166666666666" />
         <entry key="..\:/work/Android/proiect_pda/app/src/main/res/layout/fragment_camera.xml" value="0.31354166666666666" />
         <entry key="..\:/work/Android/proiect_pda/app/src/main/res/layout/fragment_home.xml" value="0.31354166666666666" />
         <entry key="..\:/work/Android/proiect_pda/app/src/main/res/layout/fragment_settings.xml" value="0.31354166666666666" />
         <entry key="..\:/work/Android/proiect_pda/app/src/main/res/layout/photo_in_recycleview.xml" value="0.3125" />
         <entry key="..\:/work/Android/proiect_pda/app/src/main/res/menu/nav_menu.xml" value="0.31354166666666666" />
+        <entry key="..\:/work/Android/proiect_pda/app/src/main/res/menu/search_bar.xml" value="0.31354166666666666" />
       </map>
     </option>
   </component>

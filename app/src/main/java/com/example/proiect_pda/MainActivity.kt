@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -39,5 +40,9 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
     }
 }
