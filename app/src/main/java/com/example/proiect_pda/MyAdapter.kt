@@ -10,9 +10,19 @@ import com.google.android.material.imageview.ShapeableImageView
 
 class MyAdapter (private val picture_list: ArrayList<Pictures>) : RecyclerView.Adapter <MyAdapter.ViewHolder>(){
 
+    private lateinit var listener: onItemClickListener
+
+    interface onItemClickListener {
+        fun onItemClick(pos : Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener) {
+        this.listener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.photo_in_recycleview, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -26,10 +36,15 @@ class MyAdapter (private val picture_list: ArrayList<Pictures>) : RecyclerView.A
         return picture_list.size
     }
 
-
-    class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view : View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
         val ico : ShapeableImageView = view.findViewById(R.id.ico)
         val ico_name: TextView = view.findViewById(R.id.ico_name)
+
+        init {
+            view.setOnClickListener {
+                listener.onItemClick(adapterPosition)
+            }
+        }
     }
 
 }

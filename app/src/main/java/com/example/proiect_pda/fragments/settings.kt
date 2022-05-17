@@ -1,11 +1,14 @@
 package com.example.proiect_pda.fragments
 
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ShareCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proiect_pda.MainActivity
@@ -52,6 +55,7 @@ class settings : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_settings, container, false)
         var curr_activity = activity as MainActivity
@@ -70,7 +74,20 @@ class settings : Fragment() {
             }
         searched_picture_array.addAll(picture_array)
 
-        recycler_view.adapter = MyAdapter(picture_array)
+        var adapter = MyAdapter(searched_picture_array)
+        adapter.setOnItemClickListener(object: MyAdapter.onItemClickListener{
+            override fun onItemClick(pos: Int) {
+                var picture_uri = Uri.parse(searched_picture_array[pos].image_path)
+                ShareCompat.IntentBuilder.from(curr_activity)
+                    .setStream(picture_uri)
+                    .setType("image/jpg")
+                    .setChooserTitle("Share picture")
+                    .startChooser()
+            }
+
+        })
+        recycler_view.adapter = adapter
+
         return view
     }
 
@@ -82,7 +99,7 @@ class settings : Fragment() {
         val search_view = item?.actionView as SearchView
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Nu e nevoie")
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -100,8 +117,6 @@ class settings : Fragment() {
                     searched_picture_array.addAll(picture_array)
                     recycler_view.adapter!!.notifyDataSetChanged()
                 }
-
-
                 return false
             }
 
